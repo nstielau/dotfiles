@@ -2,13 +2,13 @@
 # export PATH=$HOME/bin:/usr/local/bin:$PATH
 
 # Path to your oh-my-zsh installation.
-  export ZSH=/home/nickstielau/.oh-my-zsh
+export ZSH=/home/nickstielau/.oh-my-zsh
 
 # Set name of the theme to load. Optionally, if you set this to "random"
 # it'll load a random theme each time that oh-my-zsh is loaded.
 # See https://github.com/robbyrussell/oh-my-zsh/wiki/Themes
 ZSH_THEME="random"
-ZSH_THEME="bira"
+ZSH_THEME="nstielau"
 
 
 # Uncomment the following line to use hyphen-insensitive completion. Case
@@ -68,6 +68,12 @@ k () {
     kubectl --namespace=${NS:-default} $@ 2>&1 |  grep -v 'duplicate proto' 
 }
 
+# short alias for picking a Kube config
+c () {
+  export KUBECONFIG=$(find ~/.kube -type f -name '*'"$1"'*' -exec grep -q "clusters:" {} \; -print | fzf --select-1)
+}
+
+# helper for setting a namespace
 ns () {
     namespaces=$(timeout 10s kubectl get ns -o=custom-columns=:.metadata.name)
     if [ "$?" -eq "124" ]; then
@@ -113,16 +119,12 @@ __git_ps1 ()
     fi
 }
 
-alias c="source kubeconfig"
-
 # yikes, what a horribly ugly PS1 string
 #PS1='\[\033[1;36m\]$(__kubernetes_ps1)\[\033[1;32m\]\[\033[1;34m\]$(__pwd_ps1)\[\033[1;32m\]\W\[\033[00m\]$(__git_ps1) \[\033[0;34m\]→ \[\033[00m\]'
 
 
-cc () {
-  export KUBECONFIG=$(find ~/.kube -type f -name '*'"$1"'*' -exec grep -q "clusters:" {} \; -print | fzf --select-1)
-}
 
+# FZF Colors
 export FZF_DEFAULT_OPTS='
   --color=bg+:#073642,bg:#002b36,spinner:#719e07,hl:#586e75
   --color=fg:#839496,header:#586e75,info:#cb4b16,pointer:#719e07
