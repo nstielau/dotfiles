@@ -1,0 +1,9 @@
+# See man nanorc
+
+# Generally, mapping to maintain some consistency
+# across apps (chrome, nano, etc).  This requires
+# both app-level (Terminator) and process level 
+# (nano) rebinding.
+
+# F is for find!
+bind ^f whereis main
