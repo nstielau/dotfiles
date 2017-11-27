@@ -1,14 +1,18 @@
-# If you come from bash you might have to change your $PATH.
-# export PATH=$HOME/bin:/usr/local/bin:$PATH
+# Set path
+export PATH=$HOME/bin:/usr/local/bin:$PATH
 
 # Path to your oh-my-zsh installation.
-export ZSH=/home/nickstielau/.oh-my-zsh
+export ZSH=~/.oh-my-zsh
 
 # Set name of the theme to load. Optionally, if you set this to "random"
 # it'll load a random theme each time that oh-my-zsh is loaded.
 # See https://github.com/robbyrussell/oh-my-zsh/wiki/Themes
 ZSH_THEME="random"
-ZSH_THEME="nstielau"
+if [ $(( ( RANDOM % 2 )  + 1 )) -eq "1" ]; then
+  ZSH_THEME="agnoster" # I liked this one, orange and blue, goes nice with Solarized dark.
+else
+  ZSH_THEME="nstielau"
+fi
 
 
 # Uncomment the following line to use hyphen-insensitive completion. Case
