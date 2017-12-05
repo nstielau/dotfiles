@@ -1,0 +1,8 @@
+echo "Running $(uname)"
+
+# Open helpers
+alias open="/opt/google/chrome/google-chrome"
+
+# Turn off middle mouse button
+xinput set-button-map 6 1 1 3
+

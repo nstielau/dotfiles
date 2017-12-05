@@ -14,6 +14,11 @@ else
   ZSH_THEME="nstielau"
 fi
 
+# Linux additions
+if [ "$(uname)" = "Linux" ]; then
+  source ~/.zshrc.linux
+fi
+
 
 # Uncomment the following line to use hyphen-insensitive completion. Case
 # sensitive completion must be off. _ and - will be interchangeable.
