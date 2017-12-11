@@ -3,6 +3,9 @@ echo "Running $(uname)"
 # Open helpers
 alias open="/opt/google/chrome/google-chrome"
 
+# Also, turn off gnome's default message tray Super-V
+# https://unix.stackexchange.com/questions/275509/cannot-reassign-shortcut-superm-under-gnome 
+
 # Turn off middle mouse button
 xinput set-button-map 6 1 1 3
 
