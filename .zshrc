@@ -14,6 +14,11 @@ else
   ZSH_THEME="nstielau"
 fi
 
+# Linux additions
+if [ "$(uname)" = "Linux" ]; then
+  source ~/.zshrc.linux
+fi
+
 
 # Uncomment the following line to use hyphen-insensitive completion. Case
 # sensitive completion must be off. _ and - will be interchangeable.
@@ -34,7 +39,7 @@ fi
 # Custom plugins may be added to ~/.oh-my-zsh/custom/plugins/
 # Example format: plugins=(rails git textmate ruby lighthouse)
 # Add wisely, as too many plugins slow down shell startup.
-plugins=(git)
+plugins=(git docker)
 
 source $ZSH/oh-my-zsh.sh
 
@@ -92,41 +97,8 @@ kgl () {
     echo "k logs $pod -c CON"
 }
 
-# add kubeconfig and namespace to PS1
-__kubernetes_ps1 ()
-{
-    if [ -n "$KUBECONFIG" ]; then
-        bn=`basename $(dirname $KUBECONFIG)`/`basename $KUBECONFIG`
-	printf "(%s" "$bn"
-	if [ -n "$NS" ]; then
-            printf ":%s" "$NS"
-        fi
-	printf ") "
-    fi
-}
-
-# add last two parent directories
-# ex: ~/projects/pname -> username/projects
-__pwd_ps1 ()
-{
-    if [ "$HOME" != `pwd` ]; then   
-        pwd | rev | awk -F / '{print "",$2,$3}' | rev | sed s_\ _/_g
-    fi
-}
-
-# get current git branch
-__git_ps1 ()
-{
-    local b="$(git symbolic-ref HEAD 2>/dev/null)";
-    if [ -n "$b" ]; then
-        printf " (%s)" "${b##refs/heads/}";
-    fi
-}
-
-# yikes, what a horribly ugly PS1 string
-#PS1='\[\033[1;36m\]$(__kubernetes_ps1)\[\033[1;32m\]\[\033[1;34m\]$(__pwd_ps1)\[\033[1;32m\]\W\[\033[00m\]$(__git_ps1) \[\033[0;34m\]→ \[\033[00m\]'
-
 source ~/.fzf_completion.sh
+
 # FZF Colors
 export FZF_DEFAULT_OPTS='
   --color=bg+:#073642,bg:#002b36,spinner:#719e07,hl:#586e75

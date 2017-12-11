@@ -7,7 +7,11 @@ if [[ $UID -eq 0 ]]; then
     local user_symbol='#'
 else
     local user_host='%{$terminfo[bold]$fg[green]%}%m%{$reset_color%}'
-    local user_symbol='$'
+    if [ "$(hostname)" = "atractosteus" ]; then
+      local user_symbol='🐊gar'
+    else
+      local user_symbol='🐓🐟'
+    fi
 fi
 
 
