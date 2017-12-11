@@ -8,3 +8,11 @@ link:
 	ln -sf ~/.dotfiles/.gitconfig ~/.gitconfig
 	mkdir -p ~/.oh-my-zsh/custom/themes
 	ln -sf ~/.dotfiles/.oh-my-zsh/custom/themes/nstielau.zsh-theme ~/.oh-my-zsh/custom/themes/nstielau.zsh-theme
+	ln -sf ~/.dotfiles/.fzf_completion.sh ~/.fzf_completion.sh
+
+
+brew:
+	brew install fd # find alternative
+	brew install fzf # fuzzy finder
+	brew install nano
+	brew install wget
