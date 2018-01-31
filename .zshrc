@@ -88,7 +88,7 @@ ns () {
     if [ "$?" -eq "124" ]; then
         printf "Could not connect to k8s cluster"
     fi
-    export NS=`echo $namespaces | fzf --select-1`
+    export NS=`echo $namespaces | fzf --select-1 --preview "kubectl --namespace {} get pods 2>&1 | grep -v 'duplicate proto'"`
     echo "Set namespace to $NS"
 }
 
