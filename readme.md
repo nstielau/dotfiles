@@ -6,7 +6,8 @@ Welcome
 
 ```
 cd
-git clone git@github.com:nstielau/dotfiles.git ~/.dotfiles
+sudo dnf install -y git make
+git clone https://github.com/nstielau/dotfiles.git ~/.dotfiles
 cd ~/.dotfiles
 make
 ```
