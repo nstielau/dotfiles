@@ -16,3 +16,8 @@ brew:
 	brew install fzf # fuzzy finder
 	brew install nano
 	brew install wget
+
+dnf:
+	dnf install -y nano
+	dnf install -y zsh
+
