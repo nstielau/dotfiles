@@ -3,6 +3,7 @@
 link:
 	ln -sf ~/.dotfiles/.nanorc ~/.nanorc
 	ln -sf ~/.dotfiles/.zshrc ~/.zshrc
+	ln -sf ~/.dotfiles/.hammerspoon ~/.hammerspoon
 	ln -sf ~/.dotfiles/.zshrc.linux ~/.zshrc.linux
 	ln -sf ~/.dotfiles/.bashrc ~/.bashrc
 	ln -sf ~/.dotfiles/.gitconfig ~/.gitconfig
