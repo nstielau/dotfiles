@@ -52,35 +52,42 @@ hs.hotkey.bind({"cmd", "alt", "ctrl"}, "Right", function()
 end)
 
 hs.hotkey.bind({"cmd", "alt", "ctrl"}, "Up", function()
-  hs.alert.show("Fullscreen")
-
+  hs.alert.show("Move Screen")
+  -- get the focused window
   local win = hs.window.focusedWindow()
-  local f = win:frame()
+  -- get the screen where the focused window is displayed, a.k.a. current screen
   local screen = win:screen()
-  local max = screen:frame()
-
-  f.x = max.x
-  f.y = max.y
-  f.w = max.w 
-  f.h = max.h
-  win:setFrame(f)
+  -- compute the unitRect of the focused window relative to the current screen
+  -- and move the window to the next screen setting the same unitRect 
+  win:move(win:frame():toUnitRect(screen:frame()), screen:next(), true, 0)
 end)
 
 hs.hotkey.bind({"cmd", "alt", "ctrl"}, "Down", function()
-  hs.alert.show("3/4 Screen")
+  hs.alert.show("3/4 or full Screen")
 
   local win = hs.window.focusedWindow()
   local f = win:frame()
   local screen = win:screen()
   local max = screen:frame()
 
-  f.x = max.x + max.w / 4 
-  f.y = max.y
-  f.w = max.w / 4 * 3
-  f.h = max.h
+  -- hs.alert.show(math.floor(f.w/10) .. " = " .. math.floor(max.w / 4 * 3 / 10))
+  
+  if math.floor(f.w/10) ~= math.floor(max.w / 4 * 3 / 10) then
+    f.x = max.x + max.w / 4 
+    f.y = max.y
+    f.w = max.w / 4 * 3
+    f.h = max.h
+  else
+    f.x = max.x
+    f.y = max.y
+    f.w = max.w 
+    f.h = max.h
+  end
   win:setFrame(f)
 end)
 
+hs.hotkey.bind({"cmd", "alt", "ctrl"}, "P", function()
+end)
 
 function reloadConfig(files)
     doReload = false
