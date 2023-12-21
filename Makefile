@@ -10,6 +10,8 @@ link:
 	mkdir -p ~/.oh-my-zsh/custom/themes
 	ln -sf ~/.dotfiles/.oh-my-zsh/custom/themes/nstielau.zsh-theme ~/.oh-my-zsh/custom/themes/nstielau.zsh-theme
 	ln -sf ~/.dotfiles/.fzf_completion.sh ~/.fzf_completion.sh
+	mkdir -p ~/.bin
+	ln -sf ~/.dotfiles/.bin/organize_desktop.sh ~/.bin/organize_desktop.sh
 
 
 brew:
