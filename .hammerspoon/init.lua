@@ -21,51 +21,54 @@ hs.hotkey.bind({"cmd", "alt", "ctrl"}, "space", function()
 end)
 
 
-hs.hotkey.bind({"cmd", "alt", "ctrl"}, "Left", function()
+local function getCurrentWidthIndex(widths, f, max)
+  for i, width in ipairs(widths) do
+    if math.abs(f.w - (max.w * width)) < 1 then
+      return i
+    end
+  end
+  return 1
+end
 
-  local win = hs.window.focusedWindow()
+local function getCurrentPositionIndex(numPositions, f, max, currentWidth)
+  for i = 0, numPositions - 1 do
+    if math.abs(f.x - (max.x + i * max.w * currentWidth)) < 1 then
+      return i
+    end
+  end
+  return 0
+end
+
+local function setWindowPosition(win, direction)
   local f = win:frame()
   local screen = win:screen()
   local max = screen:frame()
 
   local screenWidth = max.w
   local widths = screenWidth < 2000 and {0.5, 0.66, 0.75} or {0.25, 0.33, 0.5, 0.66, 0.75}
-  local currentWidthIndex = nil
-
-  for i, width in ipairs(widths) do
-    if math.abs(f.w - (max.w * width)) < 1 then
-      currentWidthIndex = i
-      break
-    end
-  end
-
-  if not currentWidthIndex then
-    currentWidthIndex = 1
-  end
+  local currentWidthIndex = getCurrentWidthIndex(widths, f, max)
 
   local currentWidth = widths[currentWidthIndex]
-  local nextWidthIndex = currentWidthIndex % #widths + 1
+  local nextWidthIndex = (currentWidthIndex + direction - 1) % #widths + 1
   local nextWidth = widths[nextWidthIndex]
 
   local numPositions = math.floor(1 / currentWidth)
-  local currentPositionIndex = nil
+  local currentPositionIndex = getCurrentPositionIndex(numPositions, f, max, currentWidth)
 
-  for i = 0, numPositions - 1 do
-    if math.abs(f.x - (max.x + i * max.w * currentWidth)) < 1 then
-      currentPositionIndex = i
-      break
+  if direction == 1 then
+    if currentPositionIndex == numPositions - 1 then
+      currentWidth = nextWidth
+      currentPositionIndex = 0
+    else
+      currentPositionIndex = currentPositionIndex + 1
     end
-  end
-
-  if currentPositionIndex == nil then
-    currentPositionIndex = 0
-  end
-
-  if currentPositionIndex == numPositions - 1 then
-    currentWidth = nextWidth
-    currentPositionIndex = 0
   else
-    currentPositionIndex = currentPositionIndex + 1
+    if currentPositionIndex == 0 then
+      currentWidth = nextWidth
+      currentPositionIndex = math.floor(1 / currentWidth) - 1
+    else
+      currentPositionIndex = currentPositionIndex - 1
+    end
   end
 
   f.x = max.x + currentPositionIndex * max.w * currentWidth
@@ -75,29 +78,18 @@ hs.hotkey.bind({"cmd", "alt", "ctrl"}, "Left", function()
   win:setFrame(f)
 
   hs.alert.show(string.format("Width: %d%%, Position: %d", currentWidth * 100, currentPositionIndex + 1))
+end
+
+hs.hotkey.bind({"cmd", "alt", "ctrl"}, "Left", function()
+  local win = hs.window.focusedWindow()
+  setWindowPosition(win, 1)
+
 end)
 
 hs.hotkey.bind({"cmd", "alt", "ctrl"}, "Right", function()
 
   local win = hs.window.focusedWindow()
-  local f = win:frame()
-  local screen = win:screen()
-  local max = screen:frame()
-
-  if math.abs(f.x - max.x) < 1 then
-    -- Move to right half
-    hs.alert.show("Right Half (50%)")
-    f.x = max.x + (max.w / 2)
-  else
-    -- Move to left half
-    hs.alert.show("Left Half (50%)")
-    f.x = max.x
-  end
-
-  f.y = max.y
-  f.w = max.w / 2
-  f.h = max.h
-  win:setFrame(f)
+  setWindowPosition(win, -1)
 end)
 
 hs.hotkey.bind({"cmd", "alt", "ctrl"}, "Up", function()
