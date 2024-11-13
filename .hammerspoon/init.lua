@@ -22,7 +22,6 @@ end)
 
 
 hs.hotkey.bind({"cmd", "alt", "ctrl"}, "Left", function()
-  hs.alert.show("Left")
 
   local win = hs.window.focusedWindow()
   local f = win:frame()
@@ -32,14 +31,14 @@ hs.hotkey.bind({"cmd", "alt", "ctrl"}, "Left", function()
   local thirdWidth = max.w / 3
 
   if math.abs(f.x - max.x) < 1 then
-    -- Move to middle third
     f.x = max.x + thirdWidth
+    hs.alert.show("Middle Third (33%)")
   elseif math.abs(f.x - (max.x + thirdWidth)) < 1 then
-    -- Move to right third
+    hs.alert.show("Right Third (33%)")
     f.x = max.x + 2 * thirdWidth
   else
-    -- Move to left third
     f.x = max.x
+    hs.alert.show("Left Third (33%)")
   end
 
   f.y = max.y
@@ -49,7 +48,6 @@ hs.hotkey.bind({"cmd", "alt", "ctrl"}, "Left", function()
 end)
 
 hs.hotkey.bind({"cmd", "alt", "ctrl"}, "Right", function()
-  hs.alert.show("Right")
 
   local win = hs.window.focusedWindow()
   local f = win:frame()
@@ -58,9 +56,11 @@ hs.hotkey.bind({"cmd", "alt", "ctrl"}, "Right", function()
 
   if math.abs(f.x - max.x) < 1 then
     -- Move to right half
+    hs.alert.show("Right Half (50%)")
     f.x = max.x + (max.w / 2)
   else
     -- Move to left half
+    hs.alert.show("Left Half (50%)")
     f.x = max.x
   end
 
