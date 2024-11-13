@@ -28,7 +28,8 @@ hs.hotkey.bind({"cmd", "alt", "ctrl"}, "Left", function()
   local screen = win:screen()
   local max = screen:frame()
 
-  local widths = {0.25, 0.33, 0.5, 0.66, 0.75}
+  local screenWidth = max.w
+  local widths = screenWidth < 2000 and {0.5, 0.66, 0.75} or {0.25, 0.33, 0.5, 0.66, 0.75}
   local currentWidthIndex = nil
 
   for i, width in ipairs(widths) do
