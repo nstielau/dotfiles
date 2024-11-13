@@ -56,7 +56,14 @@ hs.hotkey.bind({"cmd", "alt", "ctrl"}, "Right", function()
   local screen = win:screen()
   local max = screen:frame()
 
-  f.x = max.x + (max.w / 2)
+  if math.abs(f.x - max.x) < 1 then
+    -- Move to right half
+    f.x = max.x + (max.w / 2)
+  else
+    -- Move to left half
+    f.x = max.x
+  end
+
   f.y = max.y
   f.w = max.w / 2
   f.h = max.h
