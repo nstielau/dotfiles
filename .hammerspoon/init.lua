@@ -28,23 +28,52 @@ hs.hotkey.bind({"cmd", "alt", "ctrl"}, "Left", function()
   local screen = win:screen()
   local max = screen:frame()
 
-  local thirdWidth = max.w / 3
+  local widths = {0.25, 0.33, 0.5, 0.66, 0.75}
+  local currentWidthIndex = nil
 
-  if math.abs(f.x - max.x) < 1 then
-    f.x = max.x + thirdWidth
-    hs.alert.show("Middle Third (33%)")
-  elseif math.abs(f.x - (max.x + thirdWidth)) < 1 then
-    hs.alert.show("Right Third (33%)")
-    f.x = max.x + 2 * thirdWidth
-  else
-    f.x = max.x
-    hs.alert.show("Left Third (33%)")
+  for i, width in ipairs(widths) do
+    if math.abs(f.w - (max.w * width)) < 1 then
+      currentWidthIndex = i
+      break
+    end
   end
 
+  if not currentWidthIndex then
+    currentWidthIndex = 1
+  end
+
+  local currentWidth = widths[currentWidthIndex]
+  local nextWidthIndex = currentWidthIndex % #widths + 1
+  local nextWidth = widths[nextWidthIndex]
+
+  local numPositions = math.floor(1 / currentWidth)
+  local currentPositionIndex = nil
+
+  for i = 0, numPositions - 1 do
+    if math.abs(f.x - (max.x + i * max.w * currentWidth)) < 1 then
+      currentPositionIndex = i
+      break
+    end
+  end
+
+  if currentPositionIndex == nil then
+    currentPositionIndex = 0
+  end
+
+  if currentPositionIndex == numPositions - 1 then
+    currentWidth = nextWidth
+    currentPositionIndex = 0
+  else
+    currentPositionIndex = currentPositionIndex + 1
+  end
+
+  f.x = max.x + currentPositionIndex * max.w * currentWidth
   f.y = max.y
-  f.w = thirdWidth
+  f.w = max.w * currentWidth
   f.h = max.h
   win:setFrame(f)
+
+  hs.alert.show(string.format("Width: %d%%, Position: %d", currentWidth * 100, currentPositionIndex + 1))
 end)
 
 hs.hotkey.bind({"cmd", "alt", "ctrl"}, "Right", function()
