@@ -29,9 +29,21 @@ hs.hotkey.bind({"cmd", "alt", "ctrl"}, "Left", function()
   local screen = win:screen()
   local max = screen:frame()
 
-  f.x = max.x
+  local thirdWidth = max.w / 3
+
+  if math.abs(f.x - max.x) < 1 then
+    -- Move to middle third
+    f.x = max.x + thirdWidth
+  elseif math.abs(f.x - (max.x + thirdWidth)) < 1 then
+    -- Move to right third
+    f.x = max.x + 2 * thirdWidth
+  else
+    -- Move to left third
+    f.x = max.x
+  end
+
   f.y = max.y
-  f.w = max.w / 2
+  f.w = thirdWidth
   f.h = max.h
   win:setFrame(f)
 end)
